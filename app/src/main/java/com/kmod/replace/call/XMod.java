@@ -38,9 +38,8 @@ public class XMod implements IXposedHookLoadPackage {
         XposedHelpers.findAndHookMethod(Intent.class, getXtra, String.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam p) throws Throwable {
-                String result = (String) p.getResult();
-                if (result != null && result.contains("@")) {
-                    String jid = result;
+                String jid = (String) p.getResult();
+                if (jid != null && jid.contains("@")) {
                     numberName = jid.split("@")[0];
                 }
             }
@@ -53,18 +52,17 @@ public class XMod implements IXposedHookLoadPackage {
                 final Activity activity = (Activity) p.thisObject;
                 if (p.args[0] != null) {
                     Menu menu = (Menu) p.args[0];
-                    MenuItem item = menu.getItem(0);
                     MenuItem item_call = menu.getItem(1);
                     if (item_call.toString().contains(getSCall())) {
-                    item_call.getActionView().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse(tlf + Uri.encode("+" + numberName.trim())));
-                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            activity.startActivity(callIntent);
-                        }
-                    });
+                        item_call.getActionView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                                callIntent.setData(Uri.parse(tlf + Uri.encode("+" + numberName.trim())));
+                                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(callIntent);
+                            }
+                        });
                     }
                 }
             }
