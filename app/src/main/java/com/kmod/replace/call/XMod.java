@@ -30,8 +30,7 @@ public class XMod implements IXposedHookLoadPackage {
     private static String getSCall() {
         final android.content.Context context = AndroidAppHelper.currentApplication().getApplicationContext();
         android.content.res.Resources res = context.getResources();
-        String call = res.getString(res.getIdentifier(audio_call, str, v_a));
-        return call;
+        return res.getString(res.getIdentifier(audio_call, str, v_a));
     }
 
     @Override
@@ -40,11 +39,9 @@ public class XMod implements IXposedHookLoadPackage {
             @Override
             protected void afterHookedMethod(MethodHookParam p) throws Throwable {
                 String result = (String) p.getResult();
-                if (result != null) {
-                    if (result.contains("@")) {
-                        String jid = result;
-                        numberName = jid.split("@")[0];
-                    }
+                if (result != null && result.contains("@")) {
+                    String jid = result;
+                    numberName = jid.split("@")[0];
                 }
             }
         });
