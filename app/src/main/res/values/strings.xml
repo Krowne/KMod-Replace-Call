@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">KMod Replace Call</string>
+    <string name="app_desc">Replace calls with normal calls.</string>
+</resources>
